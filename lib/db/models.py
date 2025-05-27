@@ -21,6 +21,7 @@ class Provider(Base):
     __tablename__ = "providers"
 
     id = Column(Integer(), primary_key=True)
+    name = Column(String())
     location = Column(String())
     phonenumber = Column(String())
     price = Column(Float())
