@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, DATETIME, ForeignKey, MetaData, create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 
 convention = {
@@ -16,6 +16,9 @@ class Service(Base):
     id = Column(Integer(), primary_key=True)
     service_type = Column(String())
 
+    #Relationship
+    providers = relationship("Provider", back_populates="service") #Access all providers in a specific service_type
+
 # Provider class
 class Provider(Base):
     __tablename__ = "providers"
@@ -27,6 +30,14 @@ class Provider(Base):
     price = Column(Float())
     service_id = Column(Integer(), ForeignKey("services.id"))
 
+    #Relationships
+    service = relationship("Service", back_populates="providers")
+    bookings = relationship("Booking", back_populates = "provider")
+
+    @staticmethod
+    def get_all():
+        return session.query(Provider).all()
+
 # User class
 class User(Base):
     __tablename__ = "users"
@@ -35,6 +46,13 @@ class User(Base):
     user_name = Column(String())
     location = Column(String())
 
+    #Relationship
+    bookings = relationship("Booking", back_populates="user")
+
+    @staticmethod
+    def get_users():
+        return session.query(User).all()
+    
 # Booking class
 class Booking(Base):
     __tablename__ = "bookings"
@@ -44,6 +62,14 @@ class Booking(Base):
     status = Column(String())
     user_id = Column(Integer(), ForeignKey("users.id"))
     provider_id = Column(Integer(), ForeignKey("providers.id"))
+
+    #Relationships
+    user = relationship("User", back_populates="bookings")
+    provider = relationship("Provider", back_populates="bookings")
+
+    @staticmethod
+    def get_bookings():
+        return session.query(Booking).all()
 
 #creating the engine
 engine = create_engine('sqlite:///lib/db/jplug.db')
