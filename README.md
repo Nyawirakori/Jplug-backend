@@ -14,5 +14,5 @@
 
 # How to get this application
 ## You're welcome to use our link: 
-## Fork and clone the repo
+## Fork and clone the repo: https://github.com/Nyawirakori/Jplug-backend.git
 ## I hope you'll have a great time using my system 
