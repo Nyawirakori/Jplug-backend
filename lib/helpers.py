@@ -69,6 +69,9 @@ def add_provider():
     session.commit()
     print(f"Provider '{new_provider.name}' added successfully!")
 
+#deleting a provider
+def delete_provider():
+    pass
 
 #Implementation for users
 #listing all users
@@ -104,6 +107,9 @@ def add_user():
     session.add(new_user)
     session.commit()
     print(f"User '{new_user.user_name}' added successfully!")
+
+def delete_user():
+    pass
 
 #Implementation for bookings
 #listing all bookings
@@ -215,3 +221,7 @@ def add_new_booking():
     session.add(new_booking)
     session.commit()
     print(f"Booking confirmed")
+
+#deleting bookings
+def delete_booking():
+    pass

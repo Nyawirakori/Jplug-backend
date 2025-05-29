@@ -11,7 +11,10 @@ from helpers import (
     list_services,
     add_user,
     add_provider,
-    add_new_booking
+    add_new_booking,
+    delete_provider,
+    delete_user,
+    delete_booking
 )
 
 def main():
@@ -40,6 +43,12 @@ def main():
             add_provider()
         elif choice =="10":
             add_new_booking()
+        elif choice =="11":
+            delete_provider()
+        elif choice =="12":
+            delete_user()
+        elif choice =="13":
+            delete_booking()
         else:
             print("Invalid choice")
 
@@ -57,6 +66,9 @@ def menu():
     print("8. Add a new user")
     print("9. Add a new provider")
     print("10. Add a new booking")
+    print("11. Delete a provider")
+    print("12. Delete a user")
+    print("13. Delete a booking")
 
 if __name__ == "__main__":
     main()
