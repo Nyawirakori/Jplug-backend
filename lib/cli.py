@@ -7,7 +7,11 @@ from helpers import (
     list_users,
     find_user_name,
     list_bookings,
-    find_booking_location
+    find_booking_location,
+    list_services,
+    add_user,
+    add_provider,
+    add_new_booking
 )
 
 def main():
@@ -28,11 +32,20 @@ def main():
             list_bookings()
         elif choice == "6":
             find_booking_location()
+        elif choice == "7":
+            list_services()
+        elif choice =="8":
+            add_user()
+        elif choice == "9":
+            add_provider()
+        elif choice =="10":
+            add_new_booking()
         else:
             print("Invalid choice")
 
 def menu():
-    print("Please select an option:")
+    print("Hey there, welcome to Jplug !!")
+    print("Please select an option to interact with the system:")
     print("0. Exit the program")
     print("1. List all providers")
     print("2. Find provider by name")
@@ -40,6 +53,10 @@ def menu():
     print("4. Find user by name")
     print("5. List all bookings" )
     print("6. Find bookings by location")
+    print("7. List all services")
+    print("8. Add a new user")
+    print("9. Add a new provider")
+    print("10. Add a new booking")
 
 if __name__ == "__main__":
     main()

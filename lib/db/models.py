@@ -22,6 +22,10 @@ class Service(Base):
     def __repr__(self):
         return (f"Services offered are {self.service_type}")
 
+    @staticmethod
+    def get_services():
+        return session.query(Service).all()
+
 # Provider class
 class Provider(Base):
     __tablename__ = "providers"
