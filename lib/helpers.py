@@ -71,7 +71,36 @@ def add_provider():
 
 #deleting a provider
 def delete_provider():
-    pass
+    name = input("Enter the name of the provider you want to delete: ").title()
+    providers = Provider.find_by_name(name)
+
+    if not providers:
+        print(f"No provider found with the name '{name}'.")
+        return
+
+    print("\nMatching providers:")
+    for i, provider in enumerate(providers, 1):
+        print(f"{i}. {provider.name} - {provider.location}, Phone: {provider.phonenumber}, Price: {provider.price}")
+
+    try:
+        choice = int(input("Select the provider number to delete: ")) - 1
+        selected_provider = providers[choice]
+    except (IndexError, ValueError):
+        print("Invalid selection.")
+        return
+
+    confirm = input(f"Are you sure you want to delete '{selected_provider.name}' and all their bookings? (y/n): ").lower()
+    if confirm == 'y':
+        # Delete associated bookings first
+        for booking in selected_provider.bookings:
+            session.delete(booking)
+
+        # Then delete the provider
+        session.delete(selected_provider)
+        session.commit()
+        print(f"Provider '{selected_provider.name}' and their bookings have been deleted successfully.")
+    else:
+        print("Deletion cancelled.")
 
 #Implementation for users
 #listing all users
@@ -109,7 +138,36 @@ def add_user():
     print(f"User '{new_user.user_name}' added successfully!")
 
 def delete_user():
-    pass
+    username = input("Enter the name of the user you want to delete: ").title()
+    users = User.find_by_user_name(username)
+
+    if not users:
+        print(f"No user found with the name '{username}'.")
+        return
+
+    print("\nMatching users:")
+    for i, user in enumerate(users, 1):
+        print(f"{i}. {user.user_name} - {user.location}")
+
+    try:
+        choice = int(input("Select the user number to delete: ")) - 1
+        selected_user = users[choice]
+    except (IndexError, ValueError):
+        print("Invalid selection.")
+        return
+
+    confirm = input(f"Are you sure you want to delete '{selected_user.user_name}' and all their bookings? (y/n): ").lower()
+    if confirm == 'y':
+        # Delete associated bookings first
+        for booking in selected_user.bookings:
+            session.delete(booking)
+
+        # Then delete the user
+        session.delete(selected_user)
+        session.commit()
+        print(f"User '{selected_user.user_name}' and their bookings have been deleted successfully.")
+    else:
+        print("Deletion cancelled.")
 
 #Implementation for bookings
 #listing all bookings
@@ -224,4 +282,29 @@ def add_new_booking():
 
 #deleting bookings
 def delete_booking():
-    pass
+    bookings = Booking.get_bookings()
+
+    if not bookings:
+        print("No bookings found.")
+        return
+
+    print("\nAll Bookings:")
+    for i, booking in enumerate(bookings, 1):
+        user_name = booking.user.user_name if booking.user else "Unknown"
+        provider_name = booking.provider.name if booking.provider else "Unknown"
+        print(f"{i}. {user_name} booked {provider_name} on {booking.created_at} (Status: {booking.status})")
+
+    try:
+        choice = int(input("Select a booking number to delete: ")) - 1
+        selected_booking = bookings[choice]
+    except (IndexError, ValueError):
+        print("Invalid selection.")
+        return
+
+    confirm = input(f"Are you sure you want to delete this booking? (y/n): ").lower()
+    if confirm == 'y':
+        session.delete(selected_booking)
+        session.commit()
+        print("Booking deleted successfully.")
+    else:
+        print("Deletion cancelled.")
